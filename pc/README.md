@@ -1,6 +1,6 @@
 # PC posture monitor
 
-The PC half of posture-stackchan. Watches the webcam, scores forward-head
+The PC half of posture-stackchan. Watches the CoreS3 camera, scores forward-head
 posture, and drives the CoreS3 over HTTP. Also tracks how long you have been
 sitting and speaks stretch and meal reminders.
 
@@ -38,8 +38,13 @@ powershell -ExecutionPolicy Bypass -File ..\tools\install_autostart.ps1         
 powershell -ExecutionPolicy Bypass -File ..\tools\install_autostart.ps1 -Uninstall # remove
 ```
 
+Frames come from the CoreS3 built-in camera by default
+(`"camera_source": "device"`, fetched from `<device_url>/capture`). Set
+`"camera_source": "webcam"` and `camera_index`, or pass `--camera N`, to use a
+PC webcam instead.
+
 Useful flags: `--calibrate` (ignore the stored baseline), `--device http://…`,
-`--camera 1`, `--no-voice`, `--verbose` (trace the score every 2 s).
+`--camera 1` (PC webcam), `--no-voice`, `--verbose` (trace the score every 2 s).
 
 ## Camera placement
 

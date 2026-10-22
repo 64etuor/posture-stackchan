@@ -16,4 +16,5 @@
 #define LOG_WIFI(fmt, ...) LOG("WIFI", fmt, ##__VA_ARGS__)
 #define LOG_HTTP(fmt, ...) LOG("HTTP", fmt, ##__VA_ARGS__)
 #define LOG_SETTINGS(fmt, ...) LOG("SETTINGS", fmt, ##__VA_ARGS__)
+#define LOG_CAM(fmt, ...) LOG("CAM", fmt, ##__VA_ARGS__)
 #define LOG_STATE(fmt, ...) LOG("STATE", fmt, ##__VA_ARGS__)

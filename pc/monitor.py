@@ -1,6 +1,6 @@
 """Posture monitor - the PC half of the posture-stackchan project.
 
-Watches the webcam, scores forward-head posture against a calibrated baseline,
+Watches the CoreS3 camera, scores forward-head posture against a calibrated baseline,
 and drives the CoreS3 over HTTP. Also tracks how long you have been sitting and
 speaks stretch and meal reminders.
 
@@ -27,6 +27,7 @@ import cv2
 
 import config as config_module
 from device import Device
+from device_camera import DeviceCamera
 from posture import PostureAnalyzer, PostureSample, ensure_model
 from reminders import MealSchedule, SittingTimer
 from voice import Voice
@@ -45,7 +46,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--config", type=Path, default=None,
                         help="path to config.json (default: pc/config.json)")
     parser.add_argument("--device", help="override device_url, e.g. http://172.30.1.61")
-    parser.add_argument("--camera", type=int, help="override camera index")
+    parser.add_argument("--camera", type=int,
+                        help="use a PC webcam with this index instead of the CoreS3 camera")
     parser.add_argument("--preview", action="store_true",
                         help="show the camera window with the live score")
     parser.add_argument("--no-voice", action="store_true", help="disable speech")
@@ -204,6 +206,7 @@ def main() -> int:
     if args.device:
         cfg["device_url"] = args.device
     if args.camera is not None:
+        cfg["camera_source"] = "webcam"
         cfg["camera_index"] = args.camera
     if args.preview:
         cfg["preview"] = True
@@ -231,7 +234,12 @@ def main() -> int:
     analyzer = PostureAnalyzer(ensure_model(MODEL_PATH), posture_cfg["smoothing"],
                                posture_cfg["view"])
 
-    capture = cv2.VideoCapture(cfg["camera_index"], cv2.CAP_DSHOW)
+    if cfg["camera_source"] == "device":
+        capture = DeviceCamera(cfg["device_url"])
+        log.info("camera: CoreS3 at %s", capture.url)
+    else:
+        capture = cv2.VideoCapture(cfg["camera_index"], cv2.CAP_DSHOW)
+        log.info("camera: PC webcam %s", cfg["camera_index"])
     if not capture.isOpened():
         log.error("camera %s could not be opened", cfg["camera_index"])
         return 1
@@ -255,6 +263,7 @@ def main() -> int:
     last_trace = 0.0
     trace_interval = 2.0 if args.verbose else 30.0
     exit_code = 0
+    dropping = False
 
     log.info("running - Ctrl+C to stop")
 
@@ -264,9 +273,14 @@ def main() -> int:
 
             ok, frame = capture.read()
             if not ok:
-                log.warning("dropped frame")
+                # The device camera is down for whole outages (Wi-Fi, reboot);
+                # say so once rather than ten times a second.
+                if not dropping:
+                    log.warning("dropped frame")
+                    dropping = True
                 time.sleep(0.1)
                 continue
+            dropping = False
 
             now = time.monotonic()
             timestamp_ms = int((now - started) * 1000)

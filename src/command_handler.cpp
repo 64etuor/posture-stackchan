@@ -4,6 +4,7 @@
 #include <WebServer.h>
 #include <string.h>
 
+#include "camera.h"
 #include "logging.h"
 #include "network.h"
 #include "settings.h"
@@ -298,6 +299,22 @@ void handleTest() {
   sendResult(202, "fired", nullptr);
 }
 
+void sendJpeg(const uint8_t* data, size_t len, void*) {
+  server.setContentLength(len);
+  server.sendHeader("Cache-Control", "no-store");
+  server.send(200, "image/jpeg", "");
+  server.sendContent(reinterpret_cast<const char*>(data), len);
+}
+
+// The PC pulls frames here at its own pace. Counts as contact, like /health,
+// so a PC that only streams frames is not shown as offline.
+void handleCapture() {
+  noteContact();
+  if (!camera::withLatestJpeg(sendJpeg, nullptr)) {
+    sendResult(503, "error", camera::isReady() ? "warming up" : "camera unavailable");
+  }
+}
+
 void handleNotFound() {
   noteContact();
   LOG_HTTP("404 %s", server.uri().c_str());
@@ -314,6 +331,7 @@ void begin() {
   server.on("/settings", HTTP_POST, handleSettings);
   server.on("/notify", HTTP_POST, handleNotice);
   server.on("/test", HTTP_POST, handleTest);
+  server.on("/capture", HTTP_GET, handleCapture);
   server.onNotFound(handleNotFound);
 
   server.begin();

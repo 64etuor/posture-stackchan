@@ -19,6 +19,7 @@ Base URL: `http://<CORE_S3_IP>/` (port 80). All bodies are `application/json`.
 | POST | `/notify` | show a spoken notice (stretch break, meal time) |
 | POST | `/settings` | change volume, brightness, mute length, buzzer on/off |
 | POST | `/test` | trigger the local test alert |
+| GET | `/capture` | newest frame from the built-in camera (JPEG) |
 
 ### `GET /health`
 
@@ -35,6 +36,19 @@ Base URL: `http://<CORE_S3_IP>/` (port 80). All bodies are `application/json`.
 The PC should poll this at least every 10 s. If the CoreS3 sees no request from
 the PC for **30 s**, it switches the display to `OFFLINE` while keeping the last
 known posture state internally.
+
+### `GET /capture`
+
+Returns the newest frame from the CoreS3 GC0308 camera as `image/jpeg`
+(320x240). The PC monitor polls this at its own frame rate and runs the pose
+model on it; the device still judges nothing.
+
+Frames are only produced while requests keep arriving: after 3 s without a
+request the encoder idles. The first request after that, or before the camera
+has a frame, gets `503` with `{"result":"error","detail":"warming up"}` - treat
+it as a dropped frame. `503` with `"camera unavailable"` means the sensor
+failed to start (see `[CAM]` in the serial log). Like `/health`, every request
+counts as PC contact.
 
 ### `POST /state`
 

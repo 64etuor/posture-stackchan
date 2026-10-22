@@ -17,6 +17,9 @@ log = logging.getLogger(__name__)
 
 DEFAULTS: dict[str, Any] = {
     "device_url": "http://172.30.1.61",
+    # "device" pulls frames from the CoreS3 camera (GET /capture);
+    # "webcam" uses a PC camera, picked by camera_index.
+    "camera_source": "device",
     "camera_index": 0,
     "target_fps": 10,
     "posture": {

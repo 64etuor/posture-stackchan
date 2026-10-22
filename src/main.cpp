@@ -12,6 +12,7 @@
 
 #include "app_state.h"
 #include "audio.h"
+#include "camera.h"
 #include "command_handler.h"
 #include "display_ui.h"
 #include "logging.h"
@@ -354,6 +355,7 @@ void setup() {
 
   ui::begin();
   audio::begin();
+  camera::begin();
   settings::begin();
   net::begin();
 

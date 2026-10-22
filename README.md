@@ -2,8 +2,9 @@
 
 Desktop posture alert device built on an **M5Stack CoreS3 (K128)**.
 
-A program on the PC watches the webcam, scores forward-head posture, and pushes
-alerts to the CoreS3 over Wi-Fi. The CoreS3 shows a StackChan-style face whose
+A program on the PC pulls frames from the CoreS3's built-in camera
+(`GET /capture`), scores forward-head posture, and pushes alerts back to the
+CoreS3 over Wi-Fi. A PC webcam can be used instead (`camera_source`). The CoreS3 shows a StackChan-style face whose
 expression follows the posture state and beeps when the alert fires.
 **The CoreS3 never judges posture itself** — it only renders state it is told about.
 
@@ -108,11 +109,12 @@ If the board is not detected:
 ## Layout
 
 ```
-include/  app_state.h  display_ui.h  audio.h  network.h  command_handler.h
-          settings.h  logging.h  secrets.example.h
-src/      main.cpp  app_state.cpp  display_ui.cpp  audio.cpp
+include/  app_state.h  display_ui.h  audio.h  camera.h  network.h
+          command_handler.h  settings.h  logging.h  secrets.example.h
+src/      main.cpp  app_state.cpp  display_ui.cpp  audio.cpp  camera.cpp
           network.cpp  command_handler.cpp  settings.cpp
-pc/       monitor.py  posture.py  device.py  voice.py  reminders.py  config.py
+pc/       monitor.py  posture.py  device.py  device_camera.py  voice.py
+          reminders.py  config.py  autostart.pyw
 docs/     protocol.md  troubleshooting.md
 tools/    capture_serial.py  test_http.ps1  test_notify.ps1
 ```
