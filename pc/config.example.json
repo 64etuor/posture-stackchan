@@ -11,7 +11,7 @@
     "bad_score": 0.70,
     "good_score": 0.40,
     "pending_after_s": 15.0,
-    "alert_after_s": 45.0,
+    "alert_after_s": 20.0,
     "alert_repeat_s": 600.0,
     "alert_min_gap_s": 300.0,
     "smoothing": 0.12,

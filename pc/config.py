@@ -38,7 +38,7 @@ DEFAULTS: dict[str, Any] = {
         "bad_score": 0.70,
         "good_score": 0.40,
         "pending_after_s": 15.0,
-        "alert_after_s": 45.0,
+        "alert_after_s": 20.0,
         # Never nag more often than this while one slouch continues.
         "alert_repeat_s": 600.0,
         # Floor between alerts once you have straightened up in between, so a
