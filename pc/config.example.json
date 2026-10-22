@@ -1,0 +1,48 @@
+{
+  "device_url": "http://172.30.1.61",
+
+  "camera_index": 0,
+  "target_fps": 10,
+
+  "posture": {
+    "view": "auto",
+    "calibration_seconds": 8,
+    "bad_score": 0.70,
+    "good_score": 0.40,
+    "pending_after_s": 15.0,
+    "alert_after_s": 45.0,
+    "alert_repeat_s": 600.0,
+    "alert_min_gap_s": 300.0,
+    "smoothing": 0.12,
+    "decay_rate": 2.0,
+    "min_state_interval_s": 3.0
+  },
+
+  "sitting": {
+    "stretch_after_min": 45,
+    "away_resets_after_min": 3,
+    "stretch_repeat_min": 10
+  },
+
+  "meals": [
+    { "name": "breakfast", "at": "08:00", "text": "아침 먹을 시간이에요. 잠깐 쉬었다 오세요." },
+    { "name": "lunch",     "at": "12:00", "text": "점심 시간이에요. 밥 먹고 오세요." },
+    { "name": "dinner",    "at": "18:30", "text": "저녁 시간이에요. 오늘도 고생했어요." }
+  ],
+
+  "voice": {
+    "enabled": true,
+    "rate": 170,
+    "volume": 0.9,
+    "voice_hint": "korean"
+  },
+
+  "messages": {
+    "stretch": "{minutes}분째 앉아 있어요. 일어나서 목이랑 어깨를 펴 주세요.",
+    "posture_alert": "거북목이에요. 허리를 펴고 턱을 당겨 주세요.",
+    "calibrated": "자세 기준을 잡았어요. 이제부터 확인할게요."
+  },
+
+  "speak_posture_alerts": false,
+  "preview": false
+}

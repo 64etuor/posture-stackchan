@@ -1,0 +1,9 @@
+# Versions verified on Windows 11 with Python 3.11.
+#
+# MediaPipe 1.0 removed the legacy mp.solutions API; posture.py uses the Tasks
+# PoseLandmarker instead. Do not downgrade below 1.0 without changing that code.
+mediapipe==1.0.0
+opencv-python==5.0.0.93
+numpy>=1.26
+requests>=2.32
+pyttsx3>=2.90

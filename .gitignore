@@ -1,0 +1,14 @@
+.pio/
+.vscode/
+!.vscode/extensions.json
+
+# Never commit credentials (spec section 5.4)
+include/secrets.h
+
+# PC monitor
+__pycache__/
+pc/config.json
+pc/models/
+pc/baseline.json
+pc/logs/
+.omc/
