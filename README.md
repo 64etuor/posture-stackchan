@@ -95,9 +95,9 @@ If the board is not detected:
 [WIFI] Scanning 2.4 GHz band (try 1)
 [STATE] BOOTING -> CONNECTING (boot complete)
 [WIFI] Scan found 6 network(s) reachable on 2.4 GHz:
-[WIFI]   "KT_GiGA_38BB" ch=5 rssi=-48 auth=4
-[WIFI] Connecting to KT_GiGA_38BB (attempt 1)
-[WIFI] Connected: 172.30.1.61 (rssi -48 dBm)
+[WIFI]   "MyHome_WiFi" ch=5 rssi=-48 auth=4
+[WIFI] Connecting to MyHome_WiFi (attempt 1)
+[WIFI] Connected: 192.168.0.42 (rssi -48 dBm)
 [STATE] CONNECTING -> NORMAL (wifi connected)
 [TOUCH] pressed at x=160 y=120
 [STATE] NORMAL -> ALERT (touch test)

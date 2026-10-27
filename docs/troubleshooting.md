@@ -31,7 +31,7 @@ works fine on a laptop may be invisible to the device. On a KT GiGA router the
 — note that the 2.4 GHz name has no band marker at all, so `_2G_` is not a
 reliable thing to look for.
 
-**2. SSID case.** SSIDs are case-sensitive. `kt_giga_38bb` and `KT_GiGA_38BB`
+**2. SSID case.** SSIDs are case-sensitive. `myhome_wifi` and `MyHome_WiFi`
 are different networks, and the wrong one simply times out after 15 s with no
 specific error.
 
@@ -40,8 +40,8 @@ boot and logs everything it can actually reach:
 
 ```
 [WIFI] Scan found 6 network(s) reachable on 2.4 GHz:
-[WIFI]   "KT_GiGA_38BB" ch=5 rssi=-48 auth=4
-[WIFI]   "KT_GiGA_7360" ch=3 rssi=-82 auth=4
+[WIFI]   "MyHome_WiFi" ch=5 rssi=-48 auth=4
+[WIFI]   "Neighbor_WiFi" ch=3 rssi=-82 auth=4
 ```
 
 Copy the SSID from that list into `include/secrets.h` exactly as printed.
